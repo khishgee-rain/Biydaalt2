@@ -1,0 +1,283 @@
+/* Ердийн тохиргоо */
+.app {
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    /* Дэлгэцэнд тохируулж өргөн хязгаарлах */
+    font-family: 'Arial', sans-serif;
+    /* Орчин үеийн фонт ашиглах */
+}
+
+/* Хайлт */
+.search {
+    padding: 15px 20px;
+    /* Илүү том дотор зай */
+    font-size: 22px;
+    /* Том фонт */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 100%;
+    width: 360px;
+    /* Том өргөн */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    /* Илүү тод сүүдэр */
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    /* Тод фон */
+}
+
+/* Жагсаалтын тохиргоо */
+.list {
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.listItem {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #555;
+    font-weight: 400;
+    transition: color 0.3s ease;
+    /* Өнгө солигдоход зөөлөн шилжилт */
+}
+
+.listItem:hover {
+    color: #007BFF;
+    /* Хулганы заагч дээрх эффект */
+}
+
+/* Хүснэгт */
+table {
+    width: 100%;
+    margin: 30px 0px;
+    border-spacing: 10px;
+    color: #444;
+}
+
+tr {
+    margin-bottom: 20px;
+}
+
+th {
+    width: 250px;
+    text-align: left;
+    font-size: 18px;
+    color: #555;
+    font-weight: bold;
+}
+
+td {
+    width: 250px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Контейнерийн үндсэн зохион байгуулалт */
+.app-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    min-width: 100%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    /* Зөөлөн саарал өнгийн суурь */
+    border-radius: 10px;
+    /* Бага зэрэг дугуйруулалт */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Сүүдэртэй болгох */
+}
+
+/* Фильтр хэсгийг зүүн талд байрлуулах */
+.filter-container {
+    width: 350px;
+    /* Илүү өргөн фильтр */
+    margin: 0;
+    padding: 25px;
+    /* Дотор зайг нэмэгдүүлэх */
+    border-radius: 12px;
+    /* Илүү дугуйрсан булан */
+    background-color: #ffffff;
+    /* Цагаан өнгийн фон */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    /* Илүү тод сүүдэр */
+    flex-shrink: 0;
+}
+
+/* Фильтр доторх элементүүд */
+.filter-container input,
+.filter-container select {
+    width: 100%;
+    padding: 15px 20px;
+    /* Илүү том дотор зай */
+    margin-bottom: 20px;
+    /* Элементүүдийн хооронд илүү зай */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    /* Том фонт */
+    background-color: #f9f9f9;
+    transition: border 0.3s ease;
+}
+
+.filter-container input:focus,
+.filter-container select:focus {
+    border-color: #007BFF;
+    /* Анхаарал авах үед цэнхэр өнгө */
+    outline: none;
+    background-color: #ffffff;
+}
+
+/* Үнэ фильтр: хоёр input-ыг зэрэгцүүлэх */
+.price-filter {
+    display: flex;
+    gap: 15px;
+    /* Илүү зай */
+}
+
+.price-filter input {
+    flex: 1;
+    padding: 12px 15px;
+    /* Дотор зай нэмэх */
+    font-size: 16px;
+    /* Том фонт */
+    text-align: center;
+}
+
+/* Бүтээгдэхүүний жагсаалт */
+.product-list {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+/* Бүтээгдэхүүний карт */
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    width: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Сүүдэр нэмэх */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Хулганы заагч дээр хөдөлгөөн */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    /* Хулганы заагч дээр хөдөлгөөн */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.product-card button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.product-card button:hover {
+    background-color: #0056b3;
+    /* Илүү гүн цэнхэр */
+}
+
+/* Хоосон үр дүнгийн хэсэг */
+.no-results {
+    font-size: 18px;
+    color: #888;
+    text-align: center;
+}
+
+/* Cart Item Actions */
+.cart-item-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.edit-button,
+.remove-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+
+.remove-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.remove-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Cart Item Actions */
+.cart-item-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.edit-button,
+.remove-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+
+.remove-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.remove-button:hover {
+    background-color: #d32f2f;
+}
