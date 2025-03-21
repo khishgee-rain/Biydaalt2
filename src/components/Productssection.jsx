@@ -4,6 +4,7 @@ import "../styles.css";
 import "../filter.css";
 import Filter from "./filter";
 
+
 const Productsection = () => {
   const [query, setQuery] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -55,6 +56,8 @@ const Productsection = () => {
     },
   ];
 
+
+  
   // Filtering logic
   const filteredProducts = products.filter((product) => {
     return (

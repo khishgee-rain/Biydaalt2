@@ -1,0 +1,65 @@
+/* Add Product form-ын үндсэн контейнер */
+.add-product__container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Гарчиг */
+.add-product__title {
+    text-align: center;
+    color: #333;
+}
+
+/* Формын ерөнхий загвар */
+.add-product__form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Хэсэг тус бүр */
+.add-product__group {
+    margin-bottom: 15px;
+}
+
+/* Шошго */
+.add-product__label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Оролтын талбар */
+.add-product__input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+.add-product__input:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+/* Товчлуур */
+.add-product__button {
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-product__button:hover {
+    background: #218838;
+}
