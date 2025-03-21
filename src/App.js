@@ -228,6 +228,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Productssection from './components/Productssection';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './login';
+import ProductList from './components/ProductList';
 
 function Home() {
   return (
@@ -243,6 +244,7 @@ function About() {
     <div style={{ padding: 20 }}>
       <h2>About View</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adip.</p>
+      <ProductList />
     </div>
   );
 }

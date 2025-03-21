@@ -9,8 +9,8 @@ const Productsection = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [cart, setCart] = useState([]); // State for the shopping cart
-  const [isCartVisible, setIsCartVisible] = useState(false); // State to toggle cart visibility
+  const [cart, setCart] = useState([]); 
+  const [isCartVisible, setIsCartVisible] = useState(false); 
 
   const products = [
     {
@@ -75,7 +75,7 @@ const Productsection = () => {
     setCart([...cart, item]);
   };
 
-  // Toggle cart visibility
+  // basket visibility
   const toggleCart = () => {
     setIsCartVisible(!isCartVisible);
   };
@@ -99,7 +99,9 @@ const Productsection = () => {
   };
 
   return (
+    
     <div className="app-container">
+      
       {/* Search Bar */}
       <div>
         <input
@@ -136,10 +138,11 @@ const Productsection = () => {
         )}
       </div>
 
-      {/* Cart Button and Cart Display */}
+      
       <div className="cart-container">
         <button className="cart-button" onClick={toggleCart}>
-          🛒 {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
+          🛒
+          {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
         </button>
         {isCartVisible && (
           <div className="cart-dropdown">
