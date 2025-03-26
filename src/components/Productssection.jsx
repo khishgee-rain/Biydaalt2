@@ -1,64 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
+import Filter from "./filter";
+import ProductModal from "./ProductModal";
 import "../styles.css";
 import "../filter.css";
-import Filter from "./filter";
 
-
-const Productsection = () => {
+const Productssection = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [cart, setCart] = useState([]); 
-  const [isCartVisible, setIsCartVisible] = useState(false); 
+  const [cart, setCart] = useState([]);
+  const [isCartVisible, setIsCartVisible] = useState(false);
+  const [activeProduct, setActiveProduct] = useState(null); 
 
-  const products = [
-    {
-      id: 1,
-      name: "Blood Orange",
-      price: 19.99,
-      colors: ["red", "blue", "green"],
-      picture:
-        "https://plus.unsplash.com/premium_photo-1671379041175-782d15092945?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZnJ1aXRzfGVufDB8fDB8fHww",
-    },
-    {
-      id: 2,
-      name: "Kiwi",
-      price: 24.99,
-      colors: ["yellow", "purple", "black"],
-      picture:
-        "https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnJ1aXRzfGVufDB8fDB8fHww",
-    },
-    {
-      id: 3,
-      name: "Cherry",
-      price: 29.99,
-      colors: ["black", "pink", "orange"],
-      picture:
-        "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZnJ1aXRzfGVufDB8fDB8fHww",
-    },
-    {
-      id: 4,
-      name: "Orange",
-      price: 15.99,
-      colors: ["brown", "gray", "teal"],
-      picture:
-        "https://plus.unsplash.com/premium_photo-1675237625753-c01705e314bb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZnJ1aXRzfGVufDB8fDB8fHww",
-    },
-    {
-      id: 5,
-      name: "Papaya",
-      price: 39.99,
-      colors: ["cyan", "magenta", "lime", "indigo"],
-      picture:
-        "https://images.unsplash.com/photo-1526318472351-c75fcf070305?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZnJ1aXRzfGVufDB8fDB8fHww",
-    },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/products");
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-
-  
-  // Filtering logic
   const filteredProducts = products.filter((product) => {
     return (
       product.name.toLowerCase().includes(query.toLowerCase()) &&
@@ -68,44 +42,48 @@ const Productsection = () => {
     );
   });
 
-  // Add product to cart
   const addToCart = (product, selectedColor, count) => {
-    const item = {
-      ...product,
-      selectedColor,
-      count,
-    };
-    setCart([...cart, item]);
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex(
+        (item) => item.id === product.id && item.selectedColor === selectedColor
+      );
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].count += count;
+        return updatedCart;
+      }
+
+      return [...prevCart, { ...product, selectedColor, count }];
+    });
   };
 
-  // basket visibility
   const toggleCart = () => {
     setIsCartVisible(!isCartVisible);
   };
 
-  // Remove item from cart
-  const handleRemoveItem = (index) => {
-    const updatedCart = cart.filter((_, i) => i !== index);
-    setCart(updatedCart);
-  };
-
-  // Edit item quantity in cart
   const handleEditItem = (index) => {
     const newQuantity = prompt("Enter new quantity:", cart[index].count);
-    if (newQuantity && !isNaN(newQuantity) && newQuantity > 0) {
+    const newColor = prompt("Enter new color:", cart[index].selectedColor);
+
+    
+    if (newQuantity && !isNaN(newQuantity) && newQuantity > 0 && newColor) {
       const updatedCart = [...cart];
       updatedCart[index].count = parseInt(newQuantity, 10);
+      updatedCart[index].selectedColor = newColor;
       setCart(updatedCart);
     } else {
-      alert("Please enter a valid quantity.");
+      alert("Please enter a valid quantity and color.");
     }
   };
 
+  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.count, 0);
+
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
-    
     <div className="app-container">
-      
-      {/* Search Bar */}
       <div>
         <input
           type="text"
@@ -115,7 +93,6 @@ const Productsection = () => {
           className="search"
         />
 
-        {/* Filter Component */}
         <Filter
           selectedColor={selectedColor}
           setSelectedColor={setSelectedColor}
@@ -126,14 +103,14 @@ const Productsection = () => {
         />
       </div>
 
-      {/* Product List */}
       <div className="product-list">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              addToCart={addToCart}
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              addToCart={addToCart} 
+              onOpenModal={() => setActiveProduct(product)} 
             />
           ))
         ) : (
@@ -141,43 +118,42 @@ const Productsection = () => {
         )}
       </div>
 
-      
       <div className="cart-container">
         <button className="cart-button" onClick={toggleCart}>
-          🛒
-          {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
+          🛒 {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
         </button>
         {isCartVisible && (
           <div className="cart-dropdown">
             <h3>Your Cart</h3>
             {cart.length > 0 ? (
-              cart.map((item, index) => (
-                <div key={index} className="cart-item">
-                  <img src={item.picture} alt={item.name} className="cart-item-image" />
-                  <div className="cart-item-details">
-                    <p>{item.name}</p>
-                    <p>Color: {item.selectedColor}</p>
-                    <p>Qty: {item.count}</p>
-                    <p>Price: ${item.price.toFixed(2)}</p>
-                    <div className="cart-item-actions">
-                      <button className="edit-button" onClick={() => handleEditItem(index)}>
-                        Edit
-                      </button>
-                      <button className="remove-button" onClick={() => handleRemoveItem(index)}>
-                        Remove
-                      </button>
+              <>
+                {cart.map((item, index) => (
+                  <div key={index} className="cart-item">
+                    <img src={item.picture} alt={item.name} className="cart-item-image" />
+                    <div className="cart-item-details">
+                      <p>{item.name}</p>
+                      <p>Color: {item.selectedColor}</p>
+                      <p>Qty: {item.count}</p>
+                      <p>Price: ${item.price}</p>
+                      <div className="cart-item-actions">
+                        <button className="edit-button" onClick={() => handleEditItem(index)}>Edit</button>
+                        <button className="remove-button" onClick={() => setCart(cart.filter((_, i) => i !== index))}>Remove</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                ))}
+                <h4>Total: ${totalPrice.toFixed(2)}</h4>
+              </>
             ) : (
               <p>Your cart is empty.</p>
             )}
           </div>
         )}
       </div>
+
+      {activeProduct && <ProductModal product={activeProduct} onClose={() => setActiveProduct(null)} />}
     </div>
   );
 };
 
-export default Productsection;
+export default Productssection;

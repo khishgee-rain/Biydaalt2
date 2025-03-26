@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import "../styles.css";
 
-const ProductCard = ({ product, addToCart }) => {
+const ProductCard = ({ product, addToCart, onOpenModal }) => {
   const [count, setCount] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
 
   const increaseCount = () => setCount(count + 1);
-  const decreaseCount = () => setCount(count - 1);
-
-  const handleAddToCart = () => {
-    addToCart(product, selectedColor, count);
-  };
+  const decreaseCount = () => setCount(count > 1 ? count - 1 : 1);
 
   return (
     <div className="product-card">
-      <img src={product.picture} alt={product.name} className="product-image" />
+      <img
+        src={product.picture}
+        alt={product.name}
+        className="product-image"
+        onClick={onOpenModal} // Зөвхөн нэг модал нээнэ
+        style={{ cursor: "pointer" }}
+      />
       <h2 className="product-name">{product.name}</h2>
-      <p className="product-price">${product.price.toFixed(2)}</p>
+      <p className="product-price">${product.price}</p>
 
-      {/* COLOR CHANGE */}
       <div className="product-colors">
-        {product.colors.map((color, index) => (
+        {product.colors?.map((color, index) => (
           <label key={index} className="color-label">
             <input
               type="radio"
@@ -40,16 +41,13 @@ const ProductCard = ({ product, addToCart }) => {
         ))}
       </div>
 
-      {/* SIZE COUNTER */}
       <h2>SIZE: {count}</h2>
       <div className="size-container">
-        <button onClick={decreaseCount} disabled={count === 1}>
-          —
-        </button>
+        <button onClick={decreaseCount} disabled={count === 1}>—</button>
         <button onClick={increaseCount}>+</button>
       </div>
 
-      <button className="add-to-cart" onClick={handleAddToCart}>
+      <button className="add-to-cart" onClick={() => addToCart(product, selectedColor, count)}>
         Add to Cart
       </button>
     </div>
